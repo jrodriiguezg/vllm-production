@@ -4,7 +4,7 @@ Production-grade LLM inference deployment featuring **vLLM** (PagedAttention & C
 
 - **Primary Repository (GitHub):** [github.com/jrodriiguezg/vllm-production](https://github.com/jrodriiguezg/vllm-production)
 - **Self-Hosted Mirror (Gitea):** [git.jrodriiguezg.link/jrodriiguezg/vllm-production](https://git.jrodriiguezg.link/jrodriiguezg/vllm-production)
-- **Full Technical Article:** [De Ollama a Producción: Desplegando vLLM con PagedAttention y métricas en tiempo real](https://blog.jrodriiguezg.link)
+- **Full Technical Article:** [De Ollama a Producción: Desplegando vLLM con PagedAttention y métricas en tiempo real](https://blog.jrodriiguezg.link/blog/de-ollama-a-produccion/)
 
 ---
 
