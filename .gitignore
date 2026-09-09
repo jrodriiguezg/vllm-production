@@ -1,0 +1,16 @@
+# Model weights cache (multi-GB data)
+models_cache/
+*.bin
+*.safetensors
+
+# Local environment file
+.env
+
+# Docker volumes
+*-data/
+
+# Python cache & virtualenv
+__pycache__/
+*.py[cod]
+.venv/
+venv/

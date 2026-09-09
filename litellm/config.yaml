@@ -1,0 +1,27 @@
+model_list:
+  # Modelo primario apuntando a nuestro motor vLLM local
+  - model_name: production-model
+    litellm_params:
+      model: openai/Qwen/Qwen2.5-3B-Instruct-AWQ
+      api_base: http://vllm:8000/v1
+      api_key: "token-local-vllm"
+      request_timeout: 30 # Timeout para evitar colgar al cliente
+
+  # Modelo de fallback (contingencia) en caso de saturación o caída del primario
+  # Puede ser un modelo secundario local o un proveedor externo
+  # - model_name: fallback-backup
+  #  litellm_params:
+  #    model: openai/gpt-4o-mini # O una segunda instancia vLLM con modelo ligero
+  #    api_key: "dummy-key-o-real"
+
+router_settings:
+  routing_strategy: "latency-based-routing"
+  timeout: 30
+  fallbacks:
+    - "production-model": ["fallback-backup"]
+  num_retries: 2
+  allowed_fails: 3
+  cooldown_time: 15 # Segundos antes de reintentar el modelo primario tras abrir circuito
+
+general_settings:
+  master_key: "sk-production-admin-key"
