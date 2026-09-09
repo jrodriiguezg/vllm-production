@@ -2,16 +2,18 @@
 
 Production-grade LLM inference deployment featuring **vLLM** (PagedAttention & Continuous Batching), **LiteLLM Gateway** (circuit breakers & fallbacks), and full observability via **Prometheus** and **Grafana**.
 
-Read the full technical breakdown on my blog: [De Ollama a Producción: Desplegando vLLM con PagedAttention y métricas en tiempo real](https://blog.jrodriiguezg.link)
+- **Primary Repository (GitHub):** [github.com/jrodriiguezg/vllm-production](https://github.com/jrodriiguezg/vllm-production)
+- **Self-Hosted Mirror (Gitea):** [git.jrodriiguezg.link/jrodriiguezg/vllm-production](https://git.jrodriiguezg.link/jrodriiguezg/vllm-production)
+- **Full Technical Article:** [De Ollama a Producción: Desplegando vLLM con PagedAttention y métricas en tiempo real](https://blog.jrodriiguezg.link)
 
 ---
 
 ## Architecture
 
-- **Engine:** [vLLM](https://github.com/vllm-project/vllm) with AWQ quantization (`Qwen/Qwen2.5-3B-Instruct-AWQ`), PagedAttention, and Continuous Batching.
+- **Inference Engine:** [vLLM](https://github.com/vllm-project/vllm) with AWQ quantization (`Qwen/Qwen2.5-3B-Instruct-AWQ`), PagedAttention, and Continuous Batching.
 - **Gateway & Resilience:** [LiteLLM Proxy](https://github.com/BerriAI/litellm) providing OpenAI-compatible routing, timeouts, and silent failover.
 - **Metrics Scraper:** [Prometheus](https://prometheus.io/) scraping the native `/metrics` endpoint every 2s.
-- **Dashboards:** [Grafana](https://grafana.com/) for real-time visualization of TTFT, TPOT, and KV Cache utilization.
+- **Preconfigured Dashboards:** [Grafana](https://grafana.com/) with pre-provisioned dashboard definitions (`grafana/provisioning/dashboards/panel.yaml`) tracking TTFT, TPOT, KV Cache usage, and concurrency in real time.
 
 ---
 
@@ -51,6 +53,16 @@ pip install -r scripts/requirements.txt
 # Run 20 concurrent requests against vLLM
 python3 scripts/benchmark.py --concurrency 20 --url http://localhost:4000/v1/chat/completions --model production-model
 ```
+
+---
+
+## Grafana Dashboard
+
+The repository includes a ready-to-use Grafana dashboard located at `grafana/provisioning/dashboards/panel.yaml` configured to visualize:
+- **TTFT (Time To First Token):** 95th percentile latency of the prompt prefill phase.
+- **TPOT (Time Per Output Token):** Inter-token latency during decoding.
+- **KV Cache Utilization:** Active PagedAttention VRAM allocation percentage.
+- **Concurrency:** Running batches on GPU vs. queued requests.
 
 ---
 
